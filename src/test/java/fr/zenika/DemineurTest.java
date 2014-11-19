@@ -70,11 +70,19 @@ public class DemineurTest {
     }
 
     @Test
-    public void testTwoLineSimples() {
+    public void testTwoLineDotMine() {
         String[] input = {".","*"};
         Demineur demineur = new Demineur();
         String[] output = demineur.resolve(input);
         Assertions.assertThat(output).containsExactly("1","*");
+    }
+
+    @Test
+    public void testTwoLinesMineDot() {
+        String[] input = {"*","."};
+        Demineur demineur = new Demineur();
+        String[] output = demineur.resolve(input);
+        Assertions.assertThat(output).containsExactly("*","1");
     }
 
 }
