@@ -16,7 +16,7 @@ public class Demineur {
         String[] output = new String[input.length];
 
         if (input.length == 2) {
-            return new String[] {"1","*"};
+            return treatColumn(input[0].substring(0,1) + input[1].substring(0,1));
         }
 
         // I don't even know why we already have this loop, the UT are working without it ! => KISS !!!
@@ -26,6 +26,13 @@ public class Demineur {
         // }
 
         return output;
+    }
+
+    private String[] treatColumn(String column) {
+        for (LineSubstitutionRule lineRule : lineRules) {
+            column = lineRule.apply(column);
+        }
+        return column.split("");
     }
 
     private String treatLine(String line) {
