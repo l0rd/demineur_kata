@@ -85,5 +85,13 @@ public class DemineurTest {
         Assertions.assertThat(output).containsExactly("*","1");
     }
 
+    @Test
+    public void testThreeLinesMineDot() {
+        String[] input = {"*",".","."};
+        Demineur demineur = new Demineur();
+        String[] output = demineur.resolve(input);
+        Assertions.assertThat(output).containsExactly("*","1","0");
+    }
+
 }
 
