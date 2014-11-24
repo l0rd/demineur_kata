@@ -13,19 +13,26 @@ public class Demineur {
         if (input == null) throw new BoardCannotBeNullException();
         checkBoardNotMalformed(input);
 
-        String[] output = new String[input.length];
+        int boardLines = input.length;
+        int boardColumns = input[0].length();
 
-        if (input.length == 2) {
-            return new String[] {"1","*"};
+        if (boardLines == 1) {
+            String[] output = {treatLine(input[0])};
+            return output;
         }
 
-        // I don't even know why we already have this loop, the UT are working without it ! => KISS !!!
-        // for (int i = 0; i < input.length; i++) {
-        String line = input[0];
-        output[0] = treatLine(line);
-        // }
+        if (boardLines == 2 && boardColumns == 1) {
+            return treatColumn(input[0].substring(0,1) + input[1].substring(0, 1));
+        }
 
-        return output;
+        return null;
+    }
+
+    private String[] treatColumn(String column) {
+        for (LineSubstitutionRule lineRule : lineRules) {
+            column = lineRule.apply(column);
+        }
+        return column.split("");
     }
 
     private String treatLine(String line) {
