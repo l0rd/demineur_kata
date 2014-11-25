@@ -26,10 +26,9 @@ public class Board {
         return numberLine;
     }
 
-    //  Not yet needed... But soon :P !
-    //    public int getNumberColumn() {
-    //        return numberColumn;
-    //    }
+    public int getNumberColumn() {
+            return numberColumn;
+    }
 
     public String getLine(int lineNumber) {
         StringBuffer line = new StringBuffer();

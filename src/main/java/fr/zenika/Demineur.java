@@ -16,29 +16,48 @@ public class Demineur {
 
         Board board = new Board(input);
         int boardLines = board.getNumberLine();
-        // int boardColumns = board.getNumberColumn();
+        int boardColumns = board.getNumberColumn();
 
-        if (boardLines == 1) {
-            String line = treatLine(board.getLine(0));
-            return new String[]{line};
-        } else {
-            String column = treatColumn(board.getColumn(0));
-            return column.split("");
+        String[] linesResultBoard = new String[boardLines];
+        for (int i = 0; i < boardLines; i++) {
+            linesResultBoard[i]= treatSequence(board.getLine(i));
         }
+
+        String[] columnsResultBoard = new String[boardColumns];
+        for (int i = 0; i < boardColumns; i++) {
+            columnsResultBoard[i]= treatSequence(board.getColumn(i));
+        }
+
+        String[][] mergedResultBoard = new String[boardLines][boardColumns];
+        for (int i = 0; i < boardLines; i++) {
+            for (int j = 0; j < boardColumns; j++) {
+                if (linesResultBoard[i].charAt(j) == '*') {
+                    mergedResultBoard[i][j] = "*";
+                } else {
+                    Integer sumOfResults = Character.getNumericValue(linesResultBoard[i].charAt(j))+
+                            Character.getNumericValue(columnsResultBoard[j].charAt(i));
+                    mergedResultBoard[i][j] = sumOfResults.toString();
+                }
+            }
+        }
+
+        String[] outputResultBoard = new String[boardLines];
+        for (int i = 0; i < boardLines; i++) {
+            StringBuilder builder = new StringBuilder();
+            for(String s : mergedResultBoard[i]) {
+                builder.append(s);
+            }
+            outputResultBoard[i] = builder.toString();
+        }
+
+        return outputResultBoard;
     }
 
-    private String treatColumn(String column) {
+    private String treatSequence(String sequence) {
         for (SubstitutionRule rule : rules) {
-            column = rule.apply(column);
+            sequence = rule.apply(sequence);
         }
-        return column;
-    }
-
-    private String treatLine(String line) {
-        for (SubstitutionRule rule : rules) {
-            line = rule.apply(line);
-        }
-        return line;
+        return sequence;
     }
 
     private void checkBoardNotMalformed(String[] input) {
