@@ -93,21 +93,6 @@ public class DemineurTest {
         Assertions.assertThat(output).containsExactly("*", "1", "0");
     }
 
-    /**
-     * Même test compliqué qu'on a fait pour la ligne, mais sur une colonne.
-     * Ce test passe déjà... Je le laisse juste pour te le montrer, mais tu peux le retirer du coup puisqu'on est pas
-     * sensé rajouter des tests qui ne servent à rien... Ceci dit perso, je trouve qu'il ne fait de mal à personne
-     * ici... Et je pense que mon CPU et ma RAM peuvent supporter cette surcharge.
-     * Ce commentaire s'autodétruira dans 5 secondes.
-     */
-    @Test
-    public void testColumnTenCellsComplicated() {
-        String[] input = {".", ".", "*", ".", "*", "*", "*", ".", "."};
-        Demineur demineur = new Demineur();
-        String[] output = demineur.resolve(input);
-        Assertions.assertThat(output).containsExactly("0", "1", "*", "2", "*", "*", "*", "1", "0");
-    }
-
     @Test
     public void testLineAndColumnDotMine_MineDot() {
         String[] input = {".*", "*."};

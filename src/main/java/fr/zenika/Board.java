@@ -22,6 +22,13 @@ public class Board {
         this.mineField = map;
     }
 
+    public Board(int boardLines, int boardColumns) {
+        numberLine = boardLines;
+        numberColumn = boardColumns;
+        Character[][] map = new Character[numberLine][numberColumn];
+        this.mineField = map;
+    }
+
     public int getNumberLine() {
         return numberLine;
     }
@@ -48,5 +55,20 @@ public class Board {
         return column.toString();
     }
 
+    public void setNumberOfNeighboringMines(int line, int column, int minesNumber) {
+        mineField[line][column] = Integer.toString(minesNumber).charAt(0);
+    }
+
+    public void setMineAtPosition(int line, int column) {
+        mineField[line][column] = '*';
+    }
+
+    public String[] toStringArray() {
+        String[] stringArrayBoard = new String[numberLine];
+        for (int i = 0; i < numberLine; i++) {
+            stringArrayBoard[i] = getLine(i);
+        }
+        return  stringArrayBoard;
+    }
 
 }

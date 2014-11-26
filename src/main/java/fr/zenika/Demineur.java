@@ -15,42 +15,48 @@ public class Demineur {
         checkBoardNotMalformed(input);
 
         Board board = new Board(input);
-        int boardLines = board.getNumberLine();
-        int boardColumns = board.getNumberColumn();
 
-        String[] linesResultBoard = new String[boardLines];
+        String[] linesResultBoard = processBoardLines(board);
+        String[] columnsResultBoard = processBoardColumns(board);
+
+        Board mergedResultBoard = mergeResults(linesResultBoard, columnsResultBoard);
+        return mergedResultBoard.toStringArray();
+    }
+
+    private Board mergeResults(String[] linesResultBoard, String[] columnsResultBoard) {
+        int boardLines = linesResultBoard.length;
+        int boardColumns = columnsResultBoard.length;
+        Board mergedResults = new Board(boardLines, boardColumns);
         for (int i = 0; i < boardLines; i++) {
-            linesResultBoard[i]= treatSequence(board.getLine(i));
+            for (int j = 0; j < boardColumns; j++) {
+                if (linesResultBoard[i].charAt(j) == '*') {
+                    mergedResults.setMineAtPosition(i, j);
+                } else {
+                    Integer numberOfLineNeighbors = Character.getNumericValue(linesResultBoard[i].charAt(j));
+                    Integer numberOfColumnNeighbors = Character.getNumericValue(columnsResultBoard[j].charAt(i));
+                    mergedResults.setNumberOfNeighboringMines(i, j, numberOfLineNeighbors + numberOfColumnNeighbors);
+                }
+            }
         }
+        return mergedResults;
+    }
 
+    private String[] processBoardColumns(Board board) {
+        int boardColumns =board.getNumberColumn() ;
         String[] columnsResultBoard = new String[boardColumns];
         for (int i = 0; i < boardColumns; i++) {
             columnsResultBoard[i]= treatSequence(board.getColumn(i));
         }
+        return columnsResultBoard;
+    }
 
-        String[][] mergedResultBoard = new String[boardLines][boardColumns];
+    private String[] processBoardLines(Board board) {
+        int boardLines = board.getNumberLine();
+        String[] linesResultBoard = new String[boardLines];
         for (int i = 0; i < boardLines; i++) {
-            for (int j = 0; j < boardColumns; j++) {
-                if (linesResultBoard[i].charAt(j) == '*') {
-                    mergedResultBoard[i][j] = "*";
-                } else {
-                    Integer sumOfResults = Character.getNumericValue(linesResultBoard[i].charAt(j))+
-                            Character.getNumericValue(columnsResultBoard[j].charAt(i));
-                    mergedResultBoard[i][j] = sumOfResults.toString();
-                }
-            }
+            linesResultBoard[i]= treatSequence(board.getLine(i));
         }
-
-        String[] outputResultBoard = new String[boardLines];
-        for (int i = 0; i < boardLines; i++) {
-            StringBuilder builder = new StringBuilder();
-            for(String s : mergedResultBoard[i]) {
-                builder.append(s);
-            }
-            outputResultBoard[i] = builder.toString();
-        }
-
-        return outputResultBoard;
+        return linesResultBoard;
     }
 
     private String treatSequence(String sequence) {
